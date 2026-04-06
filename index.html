@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cara ou Coroa - Kotlin Style</title>
     <style>
-        /* Estilo geral*/
+        /* Estilo geral */
         body { 
             font-family: 'Segoe UI', sans-serif; 
             display: flex; 
@@ -17,7 +17,7 @@
             background: #f0f2f5; 
         }
 
-        /* Moeda girando */
+        /* Moeda */
         .coin { 
             width: 120px; 
             height: 120px; 
@@ -28,4 +28,75 @@
             justify-content: center; 
             font-size: 1.5rem; 
             font-weight: bold; 
-            border: 5px solid #
+            border: 5px solid #d4af37; 
+            margin: 20px; 
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Botão de Ação */
+        button { 
+            padding: 12px 25px; 
+            cursor: pointer; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <h2>🪙 Cara ou Coroa</h2>
+
+    <label for="userChoice">Escolha seu lado:</label>
+    <select id="userChoice" style="margin-bottom: 10px; padding: 5px;">
+        <option value="Cara">Cara</option>
+        <option value="Coroa">Coroa</option>
+    </select>
+
+    <div id="coin" class="coin">?</div>
+
+    <button onclick="play()">Jogar Moeda!</button>
+
+    <p style="font-weight: bold;">Vitórias: <span id="wins">0</span></p>
+
+    <script>
+        let winCount = 0; // Armazena a pontuação global da sessão
+
+        function play() {
+            // 1. Captura os elementos do HTML
+            const choice = document.getElementById('userChoice').value;
+            const coin = document.getElementById('coin');
+            const winsDisplay = document.getElementById('wins');
+
+            // 2. Lógica de Sorteio 50/50
+            const result = Math.random() < 0.5 ? "Cara" : "Coroa";
+            
+            // 3. Efeito Visual
+            coin.style.transform = "rotateY(720deg)";
+            coin.textContent = "..."; // Texto temporário enquanto "gira"
+
+            // 4. Delay para mostrar o resultado após a animação (600ms)
+            setTimeout(() => {
+                coin.textContent = result; // Exibe o lado sorteado
+                coin.style.transform = "rotateY(0deg)";
+
+                // 5. Verificação de Vitória: Compara sorteio com aposta
+                if(result === choice) {
+                    winCount++;
+                    winsDisplay.textContent = winCount;
+                    alert("🎉 Parabéns! Você acertou, caiu " + result + "!");
+                } else {
+                    alert("❌ Não foi dessa vez. Caiu " + result + ".");
+                }
+            }, 600);
+        }
+    </script>
+</body>
+</html>
